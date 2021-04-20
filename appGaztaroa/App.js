@@ -6,7 +6,7 @@ import Campobase from './componentes/CampobaseComponent';
 export default function App() {
   return (
     <View>
-      <Campobase/>
+      <Campobase />
       <StatusBar style="auto" />
     </View>
   );
