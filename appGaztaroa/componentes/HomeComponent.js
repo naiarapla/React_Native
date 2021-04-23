@@ -5,6 +5,7 @@ import { EXCURSIONES } from '../comun/excursiones';
 import { CABECERAS } from '../comun/cabeceras';
 import { ACTIVIDADES } from '../comun/actividades';
 
+
 function RenderItem(props) {
     
         const item = props.item;
@@ -12,9 +13,10 @@ function RenderItem(props) {
         if (item != null) {
             return(
                 <Card>
-                    <Card.Title>{item.nombre}</Card.Title>
                     <Card.Divider/>
-                    <Card.Image source={require('./imagenes/40Años.png')}></Card.Image>
+                    <Card.Image source={require('./imagenes/40Años.png')}>
+                    <Card.Title style={{color:'chocolate', fontSize:30}}>{item.nombre}</Card.Title>
+                    </Card.Image>
                     <Text style={{margin: 20}}>
                         {item.descripcion}
                     </Text>
