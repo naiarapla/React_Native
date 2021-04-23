@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, ScrollView, View } from 'react-native';
+import { Text, ScrollView, StyleSheet } from 'react-native';
 import { Card } from 'react-native-elements';
 import { EXCURSIONES } from '../comun/excursiones';
 import { CABECERAS } from '../comun/cabeceras';
@@ -9,13 +9,20 @@ import { ACTIVIDADES } from '../comun/actividades';
 function RenderItem(props) {
     
         const item = props.item;
+
+        const styles = StyleSheet.create({
+            title: {
+                color:'chocolate', 
+                fontSize:30
+            }
+        });
         
         if (item != null) {
             return(
                 <Card>
                     <Card.Divider/>
                     <Card.Image source={require('./imagenes/40Años.png')}>
-                    <Card.Title style={{color:'chocolate', fontSize:30}}>{item.nombre}</Card.Title>
+                    <Card.Title style={styles.title}>{item.nombre}</Card.Title>
                     </Card.Image>
                     <Text style={{margin: 20}}>
                         {item.descripcion}
