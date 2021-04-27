@@ -1,20 +1,31 @@
 import React, { Component } from 'react';
 import { Card, Icon } from 'react-native-elements';
 import { EXCURSIONES } from '../comun/excursiones';
-import { Text, View, ScrollView, FlatList} from 'react-native';
+import { Text, View, ScrollView, FlatList, StyleSheet} from 'react-native';
 import { COMENTARIOS } from '../comun/comentarios';
+import { baseUrl } from '../comun/comun';
 
 
 function RenderExcursion(props) {
 
     const excursion = props.excursion;
+
+    const styles = StyleSheet.create({
+      title: {
+          color:'white', 
+          fontSize:30,
+          textAlign: 'center',
+          marginTop:50
+      }
+  });
     
         if (excursion != null) {
             return(
             <Card>
-              <Card.Title>{excursion.nombre}</Card.Title>
-              <Card.Divider/>
-              <Card.Image source={require('./imagenes/40Años.png')}></Card.Image>
+              {/*<Card.Image source={require('./imagenes/40Años.png')}></Card.Image>*/}
+              <Card.Image source={{uri: baseUrl + excursion.imagen}}>
+              <Card.Title style={styles.title}>{excursion.nombre}</Card.Title>
+              </Card.Image>
               <Text style={{margin: 20}}>
                 {excursion.descripcion}
               </Text>

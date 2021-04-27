@@ -3,7 +3,7 @@ import { ListItem, Avatar, Card } from 'react-native-elements';
 import { SafeAreaView, FlatList, Text, View, ScrollView } from 'react-native';
 import { ACTIVIDADES } from '../comun/actividades';
 import { HISTORIA } from '../comun/historia';
-
+import { baseUrl } from '../comun/comun';
 function Historia(props) {
 
     const historia = props.historia;
@@ -37,7 +37,8 @@ class QuienesSomos extends Component {
     const renderQuienesSomosItem = ({item, index}) => {
         return (
             <ListItem  key={index}  bottomDivider>
-                <Avatar source={require('./imagenes/40Años.png')} />
+                {/*<Avatar source={require('./imagenes/40Años.png')} />*/}
+                <Avatar source={{uri: baseUrl + item.imagen}} />
                 <ListItem.Content>
                     <ListItem.Title>{item.nombre}</ListItem.Title>
                     <ListItem.Subtitle>{item.descripcion}</ListItem.Subtitle>
