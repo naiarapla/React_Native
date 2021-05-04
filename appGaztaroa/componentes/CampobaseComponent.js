@@ -13,6 +13,25 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { NavigationContainer, DrawerActions } from '@react-navigation/native';
 import { colorGaztaroaClaro } from '../comun/comun';
 import { colorGaztaroaOscuro } from '../comun/comun';
+import { connect } from 'react-redux';
+import { fetchExcursiones, fetchComentarios, fetchCabeceras, fetchActividades } from '../redux/ActionCreators';
+
+const mapStateToProps = state => {
+  return {
+    excursiones: state.excursiones,
+    comentarios: state.comentarios,
+    cabeceras: state.cabeceras,
+    actividades: state.actividades
+  }
+}
+
+const mapDispatchToProps = dispatch => ({
+  fetchExcursiones: () => dispatch(fetchExcursiones()),
+  fetchComentarios: () => dispatch(fetchComentarios()),
+  fetchCabeceras: () => dispatch(fetchCabeceras()),
+  fetchActividades: () => dispatch(fetchActividades()),
+})
+
 
 
 const Stack = createStackNavigator();
@@ -105,7 +124,6 @@ function QuienesSomosNavegador({ navigation }) {
       headerMode="screen"
       screenOptions={{
         headerTintColor: '#fff',
-        //headerStyle: { backgroundColor: '#015afc' },
         headerStyle: { backgroundColor: colorGaztaroaOscuro},
         headerTitleStyle: { color: '#fff' },
         headerLeft: () => (<Icon name="menu" size={28} color= 'white' onPress={ () => navigation.dispatch(DrawerActions.toggleDrawer()) }/>),
@@ -144,7 +162,6 @@ function DrawerNavegador() {
   return (
       <Drawer.Navigator
       drawerStyle={{
-        //backgroundColor: '#c2d3da',
         backgroundColor: colorGaztaroaClaro,
       }}
       initialRouteName="Home"
@@ -206,6 +223,12 @@ function DrawerNavegador() {
 
 
 class Campobase extends Component {
+    componentDidMount() {
+        this.props.fetchExcursiones();
+        this.props.fetchComentarios();
+        this.props.fetchCabeceras();
+        this.props.fetchActividades();
+      }    
 
   render() {
 
@@ -223,7 +246,6 @@ const styles = StyleSheet.create({
   container: {flex: 1,
   },
   drawerHeader: {
-    //backgroundColor: '#015afc',
     backgroundColor: colorGaztaroaOscuro,
     height: 100,
     alignItems: 'center',
@@ -243,4 +265,5 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Campobase;
+
+export default connect(mapStateToProps, mapDispatchToProps)(Campobase);
