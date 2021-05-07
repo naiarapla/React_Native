@@ -5,6 +5,7 @@ import { FlatList } from 'react-native';
 import { ListItem, Avatar } from 'react-native-elements';
 import { baseUrl } from '../comun/comun';
 import { connect } from 'react-redux';
+import { IndicadorActividad }from './IndicadorActividadComponent';
 
 const mapStateToProps = state => {
     return {
@@ -45,6 +46,19 @@ class QuienesSomos extends Component {
             </ListItem> 
             );
         };
+
+        if (this.props.actividades.isLoading) {
+            return(
+                <ScrollView>
+                    <Historia />
+                    <Card>
+                        <Card.Title>"Actividades y recursos"</Card.Title>
+                        <Card.Divider/>
+                        <IndicadorActividad />
+                    </Card>
+                </ScrollView>
+            );
+        }
 
         return(
             <ScrollView>

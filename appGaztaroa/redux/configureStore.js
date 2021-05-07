@@ -5,6 +5,7 @@ import { excursiones } from './excursiones';
 import { comentarios } from './comentarios';
 import { cabeceras } from './cabeceras';
 import { actividades } from './actividades';
+import { favoritos } from './favoritos';
 
 export const ConfigureStore = () => {
     const store = createStore(
@@ -12,9 +13,10 @@ export const ConfigureStore = () => {
             excursiones,
             comentarios,
             cabeceras,
-            actividades
+            actividades,
+            favoritos
         }),
-        applyMiddleware(thunk, logger)
+        applyMiddleware(thunk) //(thunk, logger)
     );
 
     return store;
