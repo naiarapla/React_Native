@@ -34,7 +34,7 @@ function RenderExcursion(props) {
               <Text style={{margin: 20}}>
                 {excursion.descripcion}
               </Text>
-              <Text style={styles.icon} >
+              <View style={styles.icon}>
               <Icon 
                 raised
                 reverse
@@ -43,7 +43,7 @@ function RenderExcursion(props) {
                 color='#f50'
                 onPress={() => props.favorita ? console.log('La excursión ya se encuentra entre las favoritas') : props.onPress()}
                 />
-                <Icon 
+                <Icon
                 raised
                 reverse
                 name={ 'pencil' }
@@ -51,7 +51,7 @@ function RenderExcursion(props) {
                 color={colorGaztaroaOscuro}
                 onPress={() => props.onClick()}
                 />
-                </Text>
+                </View>
             </Card>
             );
         }
@@ -193,10 +193,11 @@ const styles = StyleSheet.create({
     },
     icon:{
       alignItems: 'center',
+      textAlign:'center',
+      flexDirection:'row',
       justifyContent: 'center',
-      marginLeft: 90,
-      height:50,
-      width:60
+     
+     
     },
     modal:{
       marginTop:50
