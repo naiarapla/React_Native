@@ -9,7 +9,8 @@ const mapStateToProps = state => {
     return {
       excursiones: state.excursiones,
       cabeceras: state.cabeceras,
-      actividades: state.actividades
+      actividades: state.actividades,
+      login: state.login
     }
   }
 
@@ -55,9 +56,10 @@ function RenderItem(props) {
 class Home extends Component {
 
     render() {
-        
+        if(this.props.login.login[0].stateLogin===true){
         return(
             <ScrollView>
+                <Text style={styles.header}>Bienvenid@ {this.props.login.login[0].email}</Text>
                 <RenderItem item={this.props.cabeceras.cabeceras.filter((cabecera) => cabecera.destacado)[0]} 
                 isLoading={this.props.cabeceras.isLoading}
                 errMess={this.props.cabeceras.errMess} 
@@ -73,7 +75,26 @@ class Home extends Component {
                  errMess={this.props.actividades.errMess} 
                 />
             </ScrollView>
-        );
+        );}else{
+            return(
+                <ScrollView>
+                    <RenderItem item={this.props.cabeceras.cabeceras.filter((cabecera) => cabecera.destacado)[0]} 
+                    isLoading={this.props.cabeceras.isLoading}
+                    errMess={this.props.cabeceras.errMess} 
+                    />
+                    
+                    <RenderItem item={this.props.excursiones.excursiones.filter((excursion) => excursion.destacado)[0]}
+                        isLoading={this.props.excursiones.isLoading}
+                        errMess={this.props.excursiones.errMess}                
+                    />
+    
+                    <RenderItem item={this.props.actividades.actividades.filter((actividad) => actividad.destacado)[0]} 
+                     isLoading={this.props.actividades.isLoading}
+                     errMess={this.props.actividades.errMess} 
+                    />
+                </ScrollView>
+            ); 
+        }
     }
 }
 
@@ -86,6 +107,11 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       marginTop: 50,
     },
+    header: {
+        fontWeight: "bold",
+        fontSize: 16,
+        color: "#1E90FF"
+      },
   });
 
   export default connect(mapStateToProps)(Home);

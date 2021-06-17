@@ -176,4 +176,11 @@ export const addComentario = (excursionId, valoracion, autor, comentario, dia) =
     dia: dia,
 });
 
+export const postLogin = (email, password, stateLogin) => ({
+    type: ActionTypes.POST_LOGIN,
+    email: email,
+    password: password,
+    stateLogin: stateLogin,
+});
+
 

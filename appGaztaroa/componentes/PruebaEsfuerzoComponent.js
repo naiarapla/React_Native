@@ -1,8 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component , useEffect } from 'react';
 import { Text, View, ScrollView, StyleSheet, Switch, Button, Platform, Modal } from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { colorGaztaroaOscuro } from '../comun/comun';
+import * as Calendar from "expo-calendar"
+
 
 class PruebaEsfuerzo extends Component {
 
@@ -15,11 +17,73 @@ class PruebaEsfuerzo extends Component {
             showModal: false
         }
     }
-
-    gestionarReserva() {
-        console.log(JSON.stringify(this.state));
-        this.toggleModal();
+    async calendarioReserva() {
+       // useEffect(() => {
+            (async () => {
+        const { status } = await Calendar.requestCalendarPermissionsAsync();
+        if (status === 'granted') {
+            const calendars = await Calendar.getCalendarsAsync(Calendar.EntityTypes.EVENT);
+            //console.log('Here are all your calendars:');
+            //console.log({ calendars });
+        }
+        })();
+        //}, []);
+        async function getDefaultCalendarSource() {
+        const calendars = await Calendar.getCalendarsAsync(Calendar.EntityTypes.EVENT);
+        const defaultCalendars = calendars.filter(each => each.source.type === 'local');
+        return defaultCalendars[0].id;
+        //console.log({ defaultCalendars});
     }
+
+        
+            const defaultCalendarId =
+              Platform.OS === 'ios'
+                ? await getDefaultCalendarSource()
+                : { isLocalAccount: true, name: 'Expo Calendar' };
+                //console.log({ defaultCalendarSource});
+            // const newCalendarID = await Calendar.createCalendarAsync({
+            //   title: 'Expo Calendar',
+            //   color: 'blue',
+            //   entityType: Calendar.EntityTypes.EVENT,
+            //   sourceId: defaultCalendarSource.id,
+            //   source: defaultCalendarSource,
+            //   name: 'internalCalendarName',
+            //   ownerAccount: 'personal',
+            //   accessLevel: Calendar.CalendarAccessLevel.OWNER,
+            // });
+            // console.log(`Your new calendar ID is: ${newCalendarID}`);
+            const details = {
+                startDate: this.state.fecha,
+                endDate: this.state.fecha,
+                title: "Prueba de esfuerzo",
+              };
+              
+              try {
+                //console.log('Adding Event');
+              
+                const eventId = await Calendar.createEventAsync(defaultCalendarId, details);
+              
+                //console.log(eventId);
+                //const calendars = await Calendar.getCalendarsAsync(Calendar.EntityTypes.EVENT);
+                //const calendar = calendars.filter(each => each.id === "9807AE3C-630E-47B6-8287-92FC0BB50CCA");
+                //console.log({ calendar});
+                //Calendar.openEventInCalendar(eventId);
+              }
+              catch(error) {
+                console.log('Error', error);
+              }
+          
+    //}
+        
+
+    }
+   
+    gestionarReserva() {
+        //console.log(JSON.stringify(this.state));
+        this.toggleModal();
+        this.calendarioReserva();
+    }
+
     resetForm() {
         this.setState({
             edad: 18,
@@ -64,7 +128,7 @@ class PruebaEsfuerzo extends Component {
                     onValueChange={(value) => this.setState({federado: value})}>
                 </Switch>
             </View>
-            
+
             <View style={styles.formRow}>
                 <Text style={styles.formLabel}>Día y hora</Text>
                 <DateTimePicker
@@ -82,7 +146,7 @@ class PruebaEsfuerzo extends Component {
                     onChange={this.seleccionarFecha}
                 />
             </View>
-            
+
             <View style={styles.formRow}>
                 <Button
                     onPress={() => this.gestionarReserva()}

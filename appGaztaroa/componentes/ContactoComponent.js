@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Text} from 'react-native';
+import { Text, Button} from 'react-native';
 import { Card } from 'react-native-elements';
+import * as MailComposer from 'expo-mail-composer';
 
 class Contacto extends Component {
 
@@ -16,6 +17,17 @@ class Contacto extends Component {
                 Tel: +34 948 277151{'\n'}{'\n'}
                 Email: gaztaroa@gaztaroa.com
                 </Text>
+                <Button
+          title="Contactar"
+          onPress={() => {
+            MailComposer.composeAsync({
+              recipients: 
+              ['gaztaroa@gaztaroa.com'],
+              subject: 'Soci@ Gaztaroa',
+              body: 'Me gustaría hacerme soci@ y participar en las salidas de montaña.',
+            });
+          }}
+        />
             </Card>        
             );
     }

@@ -7,6 +7,8 @@ import QuienesSomos from './QuienesSomosComponent';
 import Contacto from './ContactoComponent';
 import VistaFavoritos from './VistaFavoritosComponent';
 import PruebaEsfuerzo from './PruebaEsfuerzoComponent';
+import Registrarse from './RegistroComponent';
+import Login from './LoginComponent';
 import { View, StyleSheet, Image, Text } from 'react-native';
 import { NavigationContainer, DrawerActions } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -17,12 +19,14 @@ import { colorGaztaroaOscuro, colorGaztaroaClaro } from '../comun/comun';
 import { connect } from 'react-redux';
 import { fetchExcursiones, fetchComentarios, fetchCabeceras, fetchActividades } from '../redux/ActionCreators';
 
+
 const mapStateToProps = state => {
   return {
     excursiones: state.excursiones,
     comentarios: state.comentarios,
     cabeceras: state.cabeceras,
-    actividades: state.actividades
+    actividades: state.actividades,
+    login: state.login,
   }
 }
 
@@ -178,6 +182,57 @@ function PruebaEsfuerzoNavegador({ navigation }) {
     </Stack.Navigator>
   );
 }
+// function RegistrarseNavegador({ navigation }) {
+//   return (
+//     <Stack.Navigator
+//       initialRouteName="Registrarse"
+//       headerMode="screen"
+//       screenOptions={{
+//         headerTintColor: '#fff',
+//         headerStyle: { backgroundColor: colorGaztaroaOscuro },
+//         headerTitleStyle: { color: '#fff' },
+//         headerLeft: () => (<Icon name="menu" size={28} color= 'white' onPress={ () => navigation.dispatch(DrawerActions.toggleDrawer()) }/>),
+//       }}
+//     >
+//       <Stack.Screen
+//         name="Registrarse"
+//         component={Registrarse}
+//         options={{
+//           title: 'Registrarse',
+//         }}
+//       />
+//     </Stack.Navigator>
+//   );
+// }
+function LoginNavegador({ navigation }) {
+  return (
+    <Stack.Navigator
+      initialRouteName="Login"
+      headerMode="screen"
+      screenOptions={{
+        headerTintColor: '#fff',
+        headerStyle: { backgroundColor: colorGaztaroaOscuro },
+        headerTitleStyle: { color: '#fff' },
+        headerLeft: () => (<Icon name="menu" size={28} color= 'white' onPress={ () => navigation.dispatch(DrawerActions.toggleDrawer()) }/>),
+      }}
+    >
+      <Stack.Screen
+        name="Login"
+        component={Login}
+        options={{
+          title: 'Iniciar sesión',
+        }}
+      />
+       <Stack.Screen
+        name="Registrarse"
+        component={Registrarse}
+        options={{
+          title: 'Registrarse',
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
 function CustomDrawerContent(props) {
   return (
     <DrawerContentScrollView {...props}>
@@ -196,7 +251,9 @@ function CustomDrawerContent(props) {
   );
 }
 
-function DrawerNavegador() {
+function DrawerNavegador(props) {
+  const login=props.login;
+  if(login===false){
   return (
       <Drawer.Navigator
       drawerStyle={{
@@ -279,8 +336,129 @@ function DrawerNavegador() {
               )
               }}
           /> 
+           {/* <Drawer.Screen name="Registrarse" component={RegistrarseNavegador}
+          options={{
+              drawerIcon: ({ tintColor}) => (
+                <Icon
+                name='heartbeat'
+                type='font-awesome'            
+                size={24}
+                color={tintColor}
+                />
+              )
+              }}
+          /> */}
+           <Drawer.Screen name="Iniciar sesión" component={LoginNavegador}
+          options={{
+              drawerIcon: ({ tintColor}) => (
+                <Icon
+                name='users'
+                type='font-awesome'            
+                size={24}
+                color={tintColor}
+                />
+              )
+              }}
+          />
+      </Drawer.Navigator>
+  );}else{
+    return (
+      <Drawer.Navigator
+      drawerStyle={{
+        backgroundColor: colorGaztaroaClaro,
+      }}
+      initialRouteName="Home"
+      drawerContent={props => <CustomDrawerContent {...props} />}
+      >
+        <Drawer.Screen name="Campo base" component={HomeNavegador}
+          options={{
+            drawerIcon: ({ tintColor}) => (
+              <Icon
+              name='home'
+              type='font-awesome'            
+              size={24}
+              color={tintColor}
+              />
+            )
+            }}
+        />        
+        <Drawer.Screen name="Quiénes somos" component={QuienesSomosNavegador}
+          options={{
+              drawerIcon: ({ tintColor}) => (
+                <Icon
+                name='info-circle'
+                type='font-awesome'            
+                size={24}
+                color={tintColor}
+                />
+              )
+              }}
+          />          
+        <Drawer.Screen name="Calendario" component={CalendarioNavegador}
+          options={{
+            drawerIcon: ({ tintColor}) => (
+              <Icon
+              name='calendar'
+              type='font-awesome'            
+              size={24}
+              color={tintColor}
+              />
+            )
+            }}
+        />
+        <Drawer.Screen name="Contacto" component={ContactoNavegador}
+          options={{
+            drawerIcon: ({ tintColor}) => (
+              <Icon
+              name='address-card'
+              type='font-awesome'            
+              size={22}
+              color={tintColor}
+              />
+              
+            )
+            }}
+        />
+          <Drawer.Screen name="Vista favoritos" component={VistaFavoritosNavegador}
+          options={{
+            drawerIcon: ({ tintColor}) => (
+              <Icon
+              name='thumbs-up'
+              type='font-awesome'            
+              size={22}
+              color={tintColor}
+              />
+              
+            )
+            }}
+        />
+         <Drawer.Screen name="Prueba de esfuerzo" component={PruebaEsfuerzoNavegador}
+          options={{
+              drawerIcon: ({ tintColor}) => (
+                <Icon
+                name='heartbeat'
+                type='font-awesome'            
+                size={24}
+                color={tintColor}
+                />
+              )
+              }}
+          /> 
+           <Drawer.Screen name="Cerrar sesión" component={LoginNavegador}
+          options={{
+              drawerIcon: ({ tintColor}) => (
+                <Icon
+                name='users'
+                type='font-awesome'            
+                size={24}
+                color={tintColor}
+                />
+              )
+              }}
+          />
       </Drawer.Navigator>
   );
+  }
 }
 
 class Campobase extends Component {
@@ -297,7 +475,8 @@ class Campobase extends Component {
     return (
       <NavigationContainer>
         <View style={{flex:1, paddingTop: Platform.OS === 'ios' ? 0 : Constants.statusBarHeight }}>
-          <DrawerNavegador />
+          <DrawerNavegador 
+          login={this.props.login.login[0].stateLogin}/>
         </View>      
       </NavigationContainer>
     );

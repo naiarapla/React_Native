@@ -2,7 +2,7 @@ import * as ActionTypes from './ActionTypes';
 
 
 export const comentarios = (state = { errMess: null, comentarios:[]}, action) => {
-  console.log(JSON.stringify(state.comentarios));
+  //console.log(JSON.stringify(state.comentarios));
   switch (action.type) {
     case ActionTypes.ADD_COMENTARIOS:
       return {...state, errMess: null, comentarios: action.payload};

@@ -11,7 +11,8 @@ const mapStateToProps = state => {
     return {
       excursiones: state.excursiones,
       comentarios: state.comentarios,
-      favoritos: state.favoritos
+      favoritos: state.favoritos,
+      login: state.login
     }
   }
 
@@ -24,8 +25,9 @@ const mapStateToProps = state => {
 function RenderExcursion(props) {
 
     const excursion = props.excursion;
-    
+    const login = props.login;
         if (excursion != null) {
+          if(login===true){
             return(
             <Card>
               <Card.Image source = {{ uri: excursion.imagen }}>
@@ -53,7 +55,27 @@ function RenderExcursion(props) {
                 />
                 </View>
             </Card>
-            );
+            );}else{
+              return(
+                <Card>
+                  <Card.Image source = {{ uri: excursion.imagen }}>
+                    <Card.Title style={styles.cardTitleStyle}>{excursion.nombre}</Card.Title>
+                  </Card.Image>
+                  <Text style={{margin: 20}}>
+                    {excursion.descripcion}
+                  </Text>
+                  <View style={styles.icon}>
+                  <Icon 
+                    raised
+                    reverse
+                    name={ props.favorita ? 'heart' : 'heart-o'}
+                    type='font-awesome'
+                    color='#f50'
+                    onPress={() => props.favorita ? console.log('La excursión ya se encuentra entre las favoritas') : props.onPress()}
+                    />
+                    </View>
+                </Card>);
+            }
         }
         else {
             return(<View></View>);
@@ -100,7 +122,7 @@ class DetalleExcursion extends Component {
     }
 }
 gestionarComentario(excursionId, valoracion, autor, comentario) {
-  console.log(JSON.stringify(this.state));
+  //console.log(JSON.stringify(this.state));
   this.props.postComentario(excursionId, valoracion, autor, comentario);
   this.toggleModal();
 }
@@ -132,6 +154,7 @@ resetForm() {
         <ScrollView>
             <RenderExcursion
                 excursion={this.props.excursiones.excursiones[+excursionId]}
+                login={this.props.login.login[0].stateLogin}
                 //favorita={this.state.favoritos.some(el => el === excursionId)}
                 favorita={this.props.favoritos.some(el => el === excursionId)}
                 onPress={() => this.marcarFavorito(excursionId)}
