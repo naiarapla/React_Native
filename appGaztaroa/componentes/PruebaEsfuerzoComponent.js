@@ -28,26 +28,42 @@ class PruebaEsfuerzo extends Component {
         }
         })();
         //}, []);
+          
         async function getDefaultCalendarSource() {
         const calendars = await Calendar.getCalendarsAsync(Calendar.EntityTypes.EVENT);
-        const defaultCalendars = calendars.filter(each => each.source.type === 'local');
+        const defaultCalendars = calendars.filter(each => each.source.id === "8959A055-B27A-4246-B04F-DE31686FBD36");
+        //console.log(defaultCalendars);
+        if(defaultCalendars.length===0){
+            const newCalendarID = await Calendar.createCalendarAsync({
+                title: 'Calendario Gaztaroa',
+                color: "#1BADF8",
+                entityType: Calendar.EntityTypes.EVENT,
+                sourceId: "8959A055-B27A-4246-B04F-DE31686FBD36",
+                source: {id: "8959A055-B27A-4246-B04F-DE31686FBD36", name: "Default", type: "local"},
+                name: 'Default',
+                ownerAccount: 'personal',
+                accessLevel: Calendar.CalendarAccessLevel.OWNER,
+              });
+              console.log(`Your new calendar ID is: ${newCalendarID}`);
+              return newCalendarID;
+        }else{
         return defaultCalendars[0].id;
-        //console.log({ defaultCalendars});
+        }
     }
 
         
             const defaultCalendarId =
               Platform.OS === 'ios'
                 ? await getDefaultCalendarSource()
-                : { isLocalAccount: true, name: 'Expo Calendar' };
+                : { isLocalAccount: true, name: 'Calendario Gaztaroa' };
                 //console.log({ defaultCalendarSource});
             // const newCalendarID = await Calendar.createCalendarAsync({
-            //   title: 'Expo Calendar',
-            //   color: 'blue',
+            //   title: 'Calendario Gaztaroa',
+            //   color: "#1BADF8",
             //   entityType: Calendar.EntityTypes.EVENT,
-            //   sourceId: defaultCalendarSource.id,
-            //   source: defaultCalendarSource,
-            //   name: 'internalCalendarName',
+            //   sourceId: "8959A055-B27A-4246-B04F-DE31686FBD36",
+            //   source: {id: "8959A055-B27A-4246-B04F-DE31686FBD36", name: "Default", type: "local"},
+            //   name: 'Default',
             //   ownerAccount: 'personal',
             //   accessLevel: Calendar.CalendarAccessLevel.OWNER,
             // });
@@ -60,22 +76,13 @@ class PruebaEsfuerzo extends Component {
               
               try {
                 //console.log('Adding Event');
-              
                 const eventId = await Calendar.createEventAsync(defaultCalendarId, details);
-              
-                //console.log(eventId);
-                //const calendars = await Calendar.getCalendarsAsync(Calendar.EntityTypes.EVENT);
-                //const calendar = calendars.filter(each => each.id === "9807AE3C-630E-47B6-8287-92FC0BB50CCA");
-                //console.log({ calendar});
-                //Calendar.openEventInCalendar(eventId);
+                alert("Se ha añadido el evento a tu calendario Gaztaroa!");
               }
               catch(error) {
                 console.log('Error', error);
               }
-          
-    //}
         
-
     }
    
     gestionarReserva() {

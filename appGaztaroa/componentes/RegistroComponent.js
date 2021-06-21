@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { Card } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { postLogin } from '../redux/ActionCreators';
 
@@ -64,15 +65,15 @@ fetch(url, {
 render() {
   const { navigate } = this.props.navigation; 
     return(
-      <View style={styles.contianer}>
-        <View style={styles.headerView}>
-          <Text style={styles.header}>Regístrate</Text>
-        </View>
-        <TextInput
+      <Card>
+      <Card.Image source = {{ uri: 'https://firebasestorage.googleapis.com/v0/b/dsm-react-native.appspot.com/o/imagenes%2Fmendiak.png?alt=media&token=42e50447-313e-40d6-a944-491cc7d1499d' }}>
+      <Card.Title style={styles.cardTitleStyle}>Regístrate</Card.Title>
+      </Card.Image>
+         <TextInput
           placeholder="Email"
           autoCapitalize="none"
           value={this.state.email}
-          onChangeText={value => this.setState({ email: value })}
+          onChangeText= {value => this.setState({ email: value })} //{val => this.updateInputState("email", val)}
           underlineColorAndroid="#1E90FF"
           style={styles.input}
         />
@@ -80,12 +81,12 @@ render() {
           placeholder="Contraseña"
           autoCapitalize="none"
           value={this.state.password}
-          onChangeText={value => this.setState({ password: value })}
+          onChangeText={value => this.setState({ password: value })}//{val => this.updateInputState("password", val)}
           underlineColorAndroid="#1E90FF"
           style={styles.input}
           secureTextEntry
         />
-        <TextInput
+       <TextInput
           placeholder="Confirma contraseña"
           autoCapitalize="none"
           value={this.state.confirmPassword}
@@ -94,11 +95,45 @@ render() {
           style={styles.input}
           secureTextEntry
         />
-      <View style={styles.button} >
-        <Button title="Registrarse" onPress={this.registroDatos} disabled={(this.state.email === "" || this.state.password=== ""|| this.state.confirmPassword=== "")}/>
-      </View>
-      <Text style={styles.text}>¿Ya tienes cuenta? <Text onPress = {() => navigate('Login')} style={styles.navigateText}>Login</Text></Text>
-      </View>
+         <Button title="Registrarse" onPress={this.registroDatos} disabled={(this.state.email === "" || this.state.password=== ""|| this.state.confirmPassword=== "")}/>
+         <Text style={styles.text}>¿Ya tienes cuenta? <Text onPress = {() => navigate('Login')} style={styles.navigateText}>Login</Text></Text>
+      
+  </Card>
+      // <View style={styles.contianer}>
+      //   <View style={styles.headerView}>
+      //     <Text style={styles.header}>Regístrate</Text>
+      //   </View>
+      //   <TextInput
+      //     placeholder="Email"
+      //     autoCapitalize="none"
+      //     value={this.state.email}
+      //     onChangeText={value => this.setState({ email: value })}
+      //     underlineColorAndroid="#1E90FF"
+      //     style={styles.input}
+      //   />
+      //   <TextInput
+      //     placeholder="Contraseña"
+      //     autoCapitalize="none"
+      //     value={this.state.password}
+      //     onChangeText={value => this.setState({ password: value })}
+      //     underlineColorAndroid="#1E90FF"
+      //     style={styles.input}
+      //     secureTextEntry
+      //   />
+      //   <TextInput
+      //     placeholder="Confirma contraseña"
+      //     autoCapitalize="none"
+      //     value={this.state.confirmPassword}
+      //     onChangeText={value => this.setState({ confirmPassword: value })}
+      //     underlineColorAndroid="#1E90FF"
+      //     style={styles.input}
+      //     secureTextEntry
+      //   />
+      // <View style={styles.button} >
+      //   <Button title="Registrarse" onPress={this.registroDatos} disabled={(this.state.email === "" || this.state.password=== ""|| this.state.confirmPassword=== "")}/>
+      // </View>
+      // <Text style={styles.text}>¿Ya tienes cuenta? <Text onPress = {() => navigate('Login')} style={styles.navigateText}>Login</Text></Text>
+      // </View>
     )
   }
 }
@@ -123,11 +158,21 @@ const styles = StyleSheet.create({
     color: "#1E90FF"
   },
   input: {
-    width: "70%"
+    marginTop:10,
+    width: "70%",
+    fontSize:17
   },
   button: {
     marginTop: 15,
     marginBottom: 15
-  }
+  },
+  cardTitleStyle: {
+    color: 'chocolate',
+    fontWeight: 'bold',
+    fontSize: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 50,
+  },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Registrarse);
